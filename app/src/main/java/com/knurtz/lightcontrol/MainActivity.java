@@ -11,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements LightsFragment.OnFragmentInteractionListener {
+public class MainActivity
+        extends AppCompatActivity
+        implements LightsFragment.OnFragmentInteractionListener, ScenesFragment.OnFragmentInteractionListener {
 
     // UI elements
     private Menu action_menu_;
@@ -46,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements LightsFragment.On
             return true;
         }
     };
-
-
 
 
     // public methods (in the order they are called during execution of the application)
@@ -90,6 +90,11 @@ public class MainActivity extends AppCompatActivity implements LightsFragment.On
     }
 
     public void updateFromLightsFragment() {
+
+        // foo
+    }
+
+    public void updateFromScenesFragment() {
 
         // foo
     }

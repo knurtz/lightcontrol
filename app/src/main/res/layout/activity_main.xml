@@ -8,8 +8,8 @@
     tools:context=".MainActivity">
 
     <fragment
-        android:id="@+id/fragment"
-        android:name="com.knurtz.lightcontrol.LightsFragment"
+        android:id="@+id/main_fragment"
+        android:name="com.knurtz.lightcontrol.ScenesFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
