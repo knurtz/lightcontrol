@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Light Control</string>
+    <string name="title_lights">Leuchten</string>
+    <string name="title_scenes">Szenen</string>
+    <string name="refresh_caption">Leuchten aktualisieren</string>
+    <string name="settings_caption">Einstellungen</string>
+    <string name="scene_enable_text">Aktivieren</string>
+    <string name="caption_off">Aus</string>
+    <string name="no_settings">Einstellungen derzeit nicht verfügbar.</string>
+    <string name="dummy_load_finished">Dummy Load abgeschlossen</string>
+</resources>

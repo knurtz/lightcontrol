@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Light Control</string>
+    <string name="title_lights">Lights</string>
+    <string name="title_scenes">Scenes</string>
+    <string name="refresh_caption">Refresh Lights</string>
+    <string name="settings_caption">Settings</string>
+    <string name="icon_descriptor" translatable="false">icon</string>
+    <string name="placeholder_light_name" translatable="false">Foo Light</string>
+    <string name="placeholder_scene_name" translatable="false">Foo Scene</string>
+    <string name="placeholder_light_address" translatable="false">192.168.0.1</string>
+    <string name="placeholder_scene_contents" translatable="false">Foo Light: 100 % \nBar Light: 75 %</string>
+    <string name="scene_enable_text">Activate</string>
+    <string name="caption_off">Off</string>
+    <string name="no_settings">No settings available at the moment.</string>
+    <string name="dummy_load_finished">Dummy Load has finished</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
