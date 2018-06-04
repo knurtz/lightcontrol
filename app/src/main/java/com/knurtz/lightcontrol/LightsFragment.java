@@ -1,69 +1,113 @@
 package com.knurtz.lightcontrol;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 /**
  * Fragment for the lights list
- * Activities that contain this fragment must implement the
- * LightsFragment.OnFragmentInteractionListener interface
- * to handle interaction events.
- * Use the LightsFragment#newInstance factory method to
- * create an instance of this fragment.
  */
 public class LightsFragment extends Fragment {
 
+    // for interaction with parent activity
     private OnFragmentInteractionListener mListener;
 
+    // UI elements of this fragment
+    private RecyclerView lights_rec_view_;
+    private SwipeRefreshLayout swipe_refresh;
+
+    // adapter for lights recycler view
+    private RecyclerView.Adapter lights_view_adapter_;
+
+    // access application data through ViewModel
+    LightControlModel mViewModel;
+
+
+    /**
+     * Callback for swipe down to refresh action.
+     */
+    private SwipeRefreshLayout.OnRefreshListener swipe_refresh_listener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            // Refresh items
+            refreshLights();
+        }
+    };
+
+    /**
+     * Goes through list of lights and request their status
+     */
+    private void refreshLights() {
+
+        // dummy delay
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipe_refresh.setRefreshing(false);
+                Toast.makeText(getActivity(), getString(R.string.dummy_load_finished), Toast.LENGTH_SHORT).show();
+            }
+        }, 2000);
+
+    }
+
     public LightsFragment() {
-        // Required empty public constructor
+        // Empty public constructor is required
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Creates new instance of the LightsFragment.
      *
-     * @return A new instance of fragment LightsFragment.
+     * @return A new instance of LightsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static LightsFragment newInstance(String param1, String param2) {
-        LightsFragment fragment = new LightsFragment();
-        return fragment;
+    public static LightsFragment newInstance() {
+        return new LightsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = ViewModelProviders.of(getActivity()).get(LightControlModel.class);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lights, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_lights, container, false);    // Inflate the layout for this fragment
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // attach listener for pull-down refresh
+        swipe_refresh = getActivity().findViewById(R.id.lights_swipe_refresh);
+        swipe_refresh.setOnRefreshListener(swipe_refresh_listener);
+        swipe_refresh.setDistanceToTriggerSync(700);
+
+        // set up the main recycler view for lights
+        lights_view_adapter_ = new LightsAdapter(mViewModel.light_dataset_);        // create adapter for the main recycler view
+        lights_rec_view_ = getActivity().findViewById(R.id.lights_rec_view);
+        lights_rec_view_.setHasFixedSize(true);                                     // improves performance
+        lights_rec_view_.setLayoutManager(new LinearLayoutManager(getActivity()));
+        lights_rec_view_.setAdapter(lights_view_adapter_);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        if (context instanceof OnFragmentInteractionListener) mListener = (OnFragmentInteractionListener) context;
+        else throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
     }
 
     @Override
@@ -72,18 +116,16 @@ public class LightsFragment extends Fragment {
         mListener = null;
     }
 
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * If stuff inside this fragments happens, that the main activity should react to,
+     * we call mListener.onFragmentInteraction(), which is implemented inside the activity.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void updateFromLightsFragment();
     }
 }

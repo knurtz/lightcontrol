@@ -68,6 +68,10 @@ public class Light {
         return true;
     }
 
+    public boolean setState(LightState new_state) {
+        return this.setState(new_state.getStatePower(), new_state.getStateLevel());
+    }
+
     public String getName() {
         return this.name_;
     }

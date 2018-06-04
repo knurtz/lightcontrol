@@ -30,7 +30,7 @@ public class LightState {
     }
 
     public boolean activate() {
-        light_.setState(state_power_, state_level_);
+        light_.setState(this);
         return true;
     }
 }
