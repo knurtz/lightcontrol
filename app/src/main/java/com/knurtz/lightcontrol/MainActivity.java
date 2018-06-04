@@ -17,11 +17,14 @@ public class MainActivity
 
     // UI elements
     private Menu action_menu_;
-    private ViewPager view_pager_;
+    private ViewPager mViewPager;
     private BottomNavigationView bottom_nav;
 
     // access application data through ViewModel
     LightControlModel  mViewModel;
+
+    // custom fragment pager
+    LightControlPagerAdapter mPagerAdapter;
 
     // this adapter has to go to
     private RecyclerView.Adapter scenes_view_adapter_;
@@ -66,7 +69,12 @@ public class MainActivity
         // load application data
         mViewModel = ViewModelProviders.of(this).get(LightControlModel.class);
 
-        bottom_nav.setSelectedItemId(R.id.navigation_scenes);           // default to scenes screen, can later be changed in options and will be pulled from savedInstanceState
+        // set up main view pager
+        LightControlPagerAdapter mPagerAdapter = new LightControlPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mViewPager.setAdapter(mPagerAdapter);
+
+        bottom_nav.setSelectedItemId(R.id.navigation_scenes);           // default to scenes screen, @TODO can be changed in preferences, saved as savedInstanceState
     }
 
     @Override
