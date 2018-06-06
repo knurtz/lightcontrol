@@ -21,13 +21,7 @@ public class MainActivity
     private BottomNavigationView bottom_nav;
 
     // access application data through ViewModel
-    LightControlModel  mViewModel;
-
-    // custom fragment pager
-    LightControlPagerAdapter mPagerAdapter;
-
-    // this adapter has to go to
-    private RecyclerView.Adapter scenes_view_adapter_;
+    LightControlModel mViewModel;
 
 
     // private methods
@@ -38,16 +32,13 @@ public class MainActivity
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                // user switched to lights view
                 case R.id.navigation_lights:
-                    // simulate swipe right on viewpager to reveal lights fragment
-                    return true;
+                    mViewPager.setCurrentItem(0, true);
+                    break;
 
-                // user switched to scenes view
                 case R.id.navigation_scenes:
-                    // simulate swipe right on viewpager to reveal scenes fragment
+                    mViewPager.setCurrentItem(1, true);
             }
-
             return true;
         }
     };
@@ -73,6 +64,19 @@ public class MainActivity
         LightControlPagerAdapter mPagerAdapter = new LightControlPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        bottom_nav.setSelectedItemId(R.id.navigation_lights);
+                        break;
+                    case 1:
+                        bottom_nav.setSelectedItemId(R.id.navigation_scenes);
+                        break;
+                }
+            }
+        });
 
         bottom_nav.setSelectedItemId(R.id.navigation_scenes);           // default to scenes screen, @TODO can be changed in preferences, saved as savedInstanceState
     }

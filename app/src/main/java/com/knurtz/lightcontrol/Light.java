@@ -73,11 +73,18 @@ public class Light {
     }
 
     public String getName() {
+
         return this.name_;
     }
 
     public String getAddress() {
+
         return this.address_;
+    }
+
+    public LightState getState() {
+
+        return new LightState(this, power_, level_);
     }
 
 

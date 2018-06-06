@@ -23,6 +23,10 @@ public class LightControlModel extends ViewModel {
         light_dataset_.put("light5", new Light("Küche", "light5", "192.168.0.5", true, light_type.single_color_light));
         light_dataset_.put("light6", new Light("Last Light", "light6", "192.168.0.6", true, light_type.single_color_light));
 
+        light_dataset_.get("light1").setState(true, 64);
+        light_dataset_.get("light3").setState(true, 22);
+        light_dataset_.get("light4").setState(true, 90);
+
         scene_dataset_ = new SceneContainer();
         Scene test_scene = new Scene("Test Szene");
         test_scene.addState(new LightState(light_dataset_.get("light1"), true, 100));
